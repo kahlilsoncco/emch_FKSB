@@ -1,0 +1,41 @@
+import streamlit as st
+import random
+
+# Función para generar ejercicios de cinemática
+def generar_ejercicio():
+    # Genera variables aleatorias para el ejercicio
+    velocidad_inicial = random.randint(10, 50)  # m/s
+    aceleracion = random.randint(1, 10)  # m/s^2
+    tiempo = random.randint(2, 10)  # segundos
+    
+    # Calcula la respuesta correcta usando la fórmula de la cinemática
+    # Fórmula: x = v0 * t + (1/2) * a * t^2
+    desplazamiento = velocidad_inicial * tiempo + 0.5 * aceleracion * (tiempo ** 2)
+    
+    return velocidad_inicial, aceleracion, tiempo, desplazamiento
+
+# Título de la aplicación
+st.title("Generador de Ejercicios de Cinemática")
+
+# Botón para generar un nuevo ejercicio
+if st.button("Generar Ejercicio"):
+    # Genera un nuevo ejercicio
+    velocidad_inicial, aceleracion, tiempo, desplazamiento_correcto = generar_ejercicio()
+    
+    # Muestra el ejercicio al usuario
+    st.write(f"Velocidad inicial (v0): {velocidad_inicial} m/s")
+    st.write(f"Aceleración (a): {aceleracion} m/s^2")
+    st.write(f"Tiempo (t): {tiempo} segundos")
+    
+    # Campo para que el usuario ingrese su respuesta
+    respuesta_usuario = st.number_input("Ingresa el desplazamiento calculado (en metros):", min_value=0.0)
+    
+    # Botón para verificar la respuesta
+    if st.button("Verificar Respuesta"):
+        if abs(respuesta_usuario - desplazamiento_correcto) < 0.1:  # tolerancia de 0.1 metros
+            st.success("¡Correcto!")
+        else:
+            st.error(f"Incorrecto. La respuesta correcta es: {desplazamiento_correcto:.2f} metros")
+
+# Información adicional
+st.sidebar.write("Esta aplicación genera ejercicios básicos de cinemática utilizando las ecuaciones de movimiento.")
